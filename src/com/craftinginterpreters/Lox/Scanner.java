@@ -1,10 +1,11 @@
 package src.com.craftinginterpreters.Lox;
+
+import static src.com.craftinginterpreters.Lox.TokenType.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import static src.com.craftinginterpreters.Lox.TokenType.*; 
+import java.util.Map; 
 
 class Scanner {
   private final String source;
@@ -37,16 +38,16 @@ class Scanner {
     keywords.put("while",  WHILE);
   }
 
-  Scanner(String source) {
+  Scanner(String source) { //tom use to scann the file
     this.source = source;
   }
 
-  //if we’ve consumed all the characters.
+  //if we’ve consumed all the characters. to be able to end the Scanner
   private boolean isAtEnd() {
     return current >= source.length();
   }
 
-  List<Token> scanTokens() {
+  List<Token> scanTokens() { //the list for the scanned tolens
     while (!isAtEnd()) {
       // We are at the beginning of the next lexeme.
       start = current;
@@ -57,7 +58,7 @@ class Scanner {
     return tokens;
   }
 
-  // real heart of the scanner.
+  // real heart of the scanner. where we advance on the source code and switch over the source inputs to get the tokens
   private void scanToken() {
     char c = advance();
     switch (c) {
@@ -115,20 +116,20 @@ class Scanner {
         // what about excuting it ? HadError take care of this no run before check
     }
   }
-  private char advance() {
+  private char advance() { //to the next char
     return source.charAt(current++);
   }
 
-  private void addToken(TokenType type) {
+  private void addToken(TokenType type) { 
     addToken(type, null);
   }
 
-  private void addToken(TokenType type, Object literal) {
+  private void addToken(TokenType type, Object literal) { // put the token in the list we created to use it in the next step
     String text = source.substring(start, current);
     tokens.add(new Token(type, text, literal, line));
   }
 
-  private boolean match(char expected) {
+  private boolean match(char expected) { // to composite reading like ! we need to the the next to match them 
     if (isAtEnd()) return false;
     if (source.charAt(current) != expected) return false;
 
@@ -136,7 +137,7 @@ class Scanner {
     return true;
   }
 
-  private char peek() {
+  private char peek() { // like the match () function but diffrent use
     if (isAtEnd()) return '\0';
     return source.charAt(current);
   }

@@ -76,3 +76,16 @@ overall comments:
    When two lexical grammar rules can both match a chunk of code that the scanner is looking at, whichever one matches the most characters wins.
 6) 
 */
+// EBNF Grammar:
+// expression    → literal
+//               | unary
+//               | binary
+//               | grouping ;
+//
+// literal       → NUMBER | STRING | "true" | "false" | "nil" ;
+// grouping      → "(" expression ")" ;
+// unary         → ( "-" | "!" ) expression ;
+// binary        → expression operator expression ;
+// operator      → "==" | "!=" | "<" | "<=" | ">" | ">="
+//               | "+"  | "-"  | "*" | "/" ;
+
