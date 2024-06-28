@@ -88,4 +88,16 @@ overall comments:
 // binary        → expression operator expression ;
 // operator      → "==" | "!=" | "<" | "<=" | ">" | ">="
 //               | "+"  | "-"  | "*" | "/" ;
-
+/*
+    define a separate rule for each precedence level.
+    Each rule here only matches expressions at its precedence level or higher. like each is accepting the ones after it
+    expression     → equality ; // The top expression rule matches any expression at any precedence level. Since equality has the lowest precedence, if we match that, then it covers everything.
+    equality       → comparison ( ( "!=" | "==" ) comparison )* ;
+    comparison     → term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
+    term           → factor ( ( "-" | "+" ) factor )* ;
+    factor         → unary ( ( "/" | "*" ) unary )* ;
+    unary          → ( "!" | "-" ) unary
+                  | primary ;
+    primary        → NUMBER | STRING | "true" | "false" | "nil"
+                  | "(" expression ")" ; // all the literals and grouping expressions.
+ */

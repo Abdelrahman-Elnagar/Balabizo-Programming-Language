@@ -1,5 +1,6 @@
 package src.com.craftinginterpreters.tool;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
@@ -11,7 +12,8 @@ public class GenerateAst {
       System.err.println("Usage: generate_ast <output directory>");
       System.exit(64);
     }
-    String outputDir = args[0];
+    String outputDir = args[0]; // to Run :"java -cp bin C:\Users\abdel\OneDrive\Documents\Balabizo\src\com\craftinginterpreters\tool\GenerateAst.java C:\\Users\\abdel\\OneDrive\\Documents\\Balabizo\\src\\com\\craftinginterpreters\\Lox"  
+
     // Each is the name of the class followed by : and the list of fields
     defineAst(outputDir, "Expr", Arrays.asList(
       "Binary   : Expr left, Token operator, Expr right",
@@ -32,6 +34,9 @@ public class GenerateAst {
     writer.println("import java.util.List;");
     writer.println();
     writer.println("abstract class " + baseName + " {");
+    // and this is for creating a new function for all classes using Visitor Design pattern
+    defineVisitor(writer, baseName, types);
+
     // The AST classes.
     // Inside the base class, we define each subclass.
     for (String type : types) {
@@ -39,9 +44,26 @@ public class GenerateAst {
       String fields = type.split(":")[1].trim(); 
       defineType(writer, baseName, className, fields);
     }
+      // The base accept() method.
+      writer.println();
+      writer.println("  abstract <R> R accept(Visitor<R> visitor);");
+
     writer.println("}");
     writer.close();
   }
+  // iterate through all of the subclasses and declare a visit method for each one.
+  private static void defineVisitor(
+    PrintWriter writer, String baseName, List<String> types) {
+      writer.println("  interface Visitor<R> {");
+
+      for (String type : types) {
+        String typeName = type.split(":")[0].trim();
+        writer.println("    R visit" + typeName + baseName + "(" +
+            typeName + " " + baseName.toLowerCase() + ");");
+    }
+
+  writer.println("  }");
+}
 
   private static void defineType(
       PrintWriter writer, String baseName,
@@ -59,6 +81,14 @@ public class GenerateAst {
       writer.println("      this." + name + " = " + name + ";");
     }
 
+    writer.println("    }");
+
+    // Visitor pattern.
+    writer.println();
+    writer.println("    @Override");
+    writer.println("    <R> R accept(Visitor<R> visitor) {"); // Generic
+    writer.println("      return visitor.visit" +
+        className + baseName + "(this);");
     writer.println("    }");
 
     // Fields.
