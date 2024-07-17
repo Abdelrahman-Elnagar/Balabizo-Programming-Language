@@ -9,7 +9,10 @@ import java.util.List;
 
 
 public class Balabizo {
+  private static final Interpreter interpreter = new Interpreter(); //why static is below
   static boolean hadError = false; //to ensure we don’t try to execute code that has a known error
+  static boolean hadRuntimeError = false;
+
   public static void main(String[] args) throws IOException {
     if (args.length > 1) {
       System.out.println("Usage: jlox [script]");
@@ -27,6 +30,7 @@ public class Balabizo {
     run(new String(bytes, Charset.defaultCharset()));
     // Indicate an error in the exit code.
     if (hadError) System.exit(65);
+    if (hadRuntimeError) System.exit(70);
   }
 
   //prompt where you can enter and execute code one line at a time.
@@ -60,6 +64,8 @@ public class Balabizo {
     if (hadError) return;
 
     System.out.println(new AstPrinter().print(expression));
+    interpreter.interpret(expression);
+
   }
   
 
@@ -70,7 +76,7 @@ public class Balabizo {
   }
 
   private static void report(int line, String where, String message) {
-    System.err.println("[line " + line + "] Error" + where + ": " + message);
+    System.err.println("Balabizo Code" + "[line " + line + "] Error" + where + ": " + message);
     hadError = true;
   }
   
@@ -81,6 +87,11 @@ public class Balabizo {
     } else {
       report(token.line, " at '" + token.lexeme + "'", message);
     }
+  }
+  static void runtimeError(RuntimeError error) {
+    System.err.println("Balabizo Runtime Code" + error.getMessage() +
+        "\n[line " + error.token.line + "]");
+    hadRuntimeError = true;
   }
 
 }
@@ -120,4 +131,17 @@ overall comments:
                   | primary ;
     primary        → NUMBER | STRING | "true" | "false" | "nil"
                   | "(" expression ")" ; // all the literals and grouping expressions.
+ */
+/*We make the field static so that successive calls to run() inside a REPL session reuse the same interpreter. 
+That doesn’t make a difference now, but it will later when the interpreter stores global variables. 
+Those variables should persist throughout the REPL session. */
+
+/*
+    program        → statement* EOF ; “end of file”
+
+    statement      → exprStmt
+                  | printStmt ;
+
+    exprStmt       → expression ";" ;
+    printStmt      → "print" expression ";" ;
  */
