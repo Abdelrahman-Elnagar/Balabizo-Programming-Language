@@ -6,13 +6,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import src.com.craftinginterpreters.Lox.Interpreter;
-import src.com.craftinginterpreters.Lox.Scanner;
-import src.com.craftinginterpreters.Lox.Token;
-import src.com.craftinginterpreters.Lox.Parser;
-import src.com.craftinginterpreters.Lox.Stmt;
-import src.com.craftinginterpreters.Lox.TokenType;
-import src.com.craftinginterpreters.Lox.RuntimeError;
 
 
 public class Balabizo {
@@ -138,8 +131,7 @@ overall comments:
                   | primary ;
     primary        → NUMBER | STRING | "true" | "false" | "nil"
                   | "(" expression ")" ; // all the literals and grouping expressions.
- */
-/*We make the field static so that successive calls to run() inside a REPL session reuse the same interpreter. 
+ *//*We make the field static so that successive calls to run() inside a REPL session reuse the same interpreter. 
 That doesn’t make a difference now, but it will later when the interpreter stores global variables. 
 Those variables should persist throughout the REPL session. */
 /*
