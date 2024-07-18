@@ -6,6 +6,13 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import src.com.craftinginterpreters.Lox.Interpreter;
+import src.com.craftinginterpreters.Lox.Scanner;
+import src.com.craftinginterpreters.Lox.Token;
+import src.com.craftinginterpreters.Lox.Parser;
+import src.com.craftinginterpreters.Lox.Stmt;
+import src.com.craftinginterpreters.Lox.TokenType;
+import src.com.craftinginterpreters.Lox.RuntimeError;
 
 
 public class Balabizo {
@@ -58,13 +65,13 @@ public class Balabizo {
 
     //
     Parser parser = new Parser(tokens);
-    Expr expression = parser.parse();
+    List<Stmt> statements = parser.parse();
 
     // Stop if there was a syntax error.
     if (hadError) return;
 
-    System.out.println(new AstPrinter().print(expression));
-    interpreter.interpret(expression);
+    //System.out.println(new AstPrinter().print(expression));
+    interpreter.interpret(statements);
 
   }
   

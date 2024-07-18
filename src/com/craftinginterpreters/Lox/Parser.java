@@ -2,6 +2,7 @@
 
 package src.com.craftinginterpreters.Lox;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static src.com.craftinginterpreters.Lox.TokenType.*;
@@ -18,17 +19,41 @@ class Parser {
   }
 
   // to start the whole thing 
-  Expr parse() {
+  /*Expr parse() {
     try {
       return expression();
     } catch (ParseError error) {
       return null;
     }
+  }*/
+  List<Stmt> parse() {
+    List<Stmt> statements = new ArrayList<>();
+    while (!isAtEnd()) {
+      statements.add(statement());
+    }
+
+    return statements; 
   }
 
   private Expr expression() {
     return equality();
   }
+  private Stmt statement() {
+    if (match(PRINT)) return printStatement();
+
+    return expressionStatement();
+  }
+  private Stmt printStatement() {
+    Expr value = expression();
+    consume(SEMICOLON, "Balabizo, Expect ';' after value.");
+    return new Stmt.Print(value);
+  }
+  private Stmt expressionStatement() {
+    Expr expr = expression();
+    consume(SEMICOLON, "Expect ';' after expression.");
+    return new Stmt.Expression(expr);
+  }
+
   //creates a left-associative nested tree of binary operator nodes.
   private Expr equality() { 
     Expr expr = comparison(); // first comparison nonterminal in the body translates to the first call to comparison() in the method. We take that result and store it in a local variable.
