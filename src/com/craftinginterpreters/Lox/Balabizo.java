@@ -142,7 +142,6 @@ overall comments:
 /*We make the field static so that successive calls to run() inside a REPL session reuse the same interpreter. 
 That doesn’t make a difference now, but it will later when the interpreter stores global variables. 
 Those variables should persist throughout the REPL session. */
-
 /*
     program        → statement* EOF ; “end of file”
 
