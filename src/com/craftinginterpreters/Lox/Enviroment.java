@@ -1,4 +1,4 @@
-package src.com.craftinginterpreters.Balabizo;
+package src.com.craftinginterpreters.Lox;
 
 import java.util.HashMap;
 import java.util.Map;
