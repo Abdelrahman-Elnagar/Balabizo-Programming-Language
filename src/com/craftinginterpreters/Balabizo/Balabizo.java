@@ -6,10 +6,12 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import src.com.craftinginterpreters.Lox.*;
+
 
 
 public class Balabizo {
-  private static final Interpreter interpreter = new Interpreter(); //why static is below
+  public static final Interpreter interpreter = new Interpreter(); //why static is below
   static boolean hadError = false; //to ensure we don’t try to execute code that has a known error
   static boolean hadRuntimeError = false;
 
@@ -129,17 +131,29 @@ overall comments:
     factor         → unary ( ( "/" | "*" ) unary )* ;
     unary          → ( "!" | "-" ) unary
                   | primary ;
+    primary        → "true" | "false" | "nil"
+                      | NUMBER | STRING
+                      | "(" expression ")"
+                       | IDENTIFIER ;
     primary        → NUMBER | STRING | "true" | "false" | "nil"
                   | "(" expression ")" ; // all the literals and grouping expressions.
  *//*We make the field static so that successive calls to run() inside a REPL session reuse the same interpreter. 
 That doesn’t make a difference now, but it will later when the interpreter stores global variables. 
 Those variables should persist throughout the REPL session. */
 /*
-    program        → statement* EOF ; “end of file”
+    program        → declaration* EOF ;
 
+    declaration    → varDecl
+                  | statement ;
+    varDecl        → "var" IDENTIFIER ( "=" expression )? ";" ;              
     statement      → exprStmt
-                  | printStmt ;
+                  | printStmt
+                  | block ;
 
+    block          → "{" declaration* "}" ;
     exprStmt       → expression ";" ;
     printStmt      → "print" expression ";" ;
+    expression     → assignment ;
+    assignment     → IDENTIFIER "=" assignment
+                      | equality ;
  */
