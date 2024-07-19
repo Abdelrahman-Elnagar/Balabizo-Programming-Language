@@ -92,6 +92,10 @@ class Parser {
     if (match(EQUAL)) {
       initializer = expression();
     }
+    //to be modified 
+    else{
+      consume(IDENTIFIER, "Balabizo, Must be intialized");
+    }
 
     consume(SEMICOLON, "Balabizo, Expect ';' after variable declaration.");
     return new Stmt.Var(name, initializer);
