@@ -1,11 +1,8 @@
 package src.com.craftinginterpreters.Lox;
-
 import java.util.List;
-
-
 class Interpreter implements Expr.Visitor<Object>,
-
                              Stmt.Visitor<Void> { // for statements that retun no value (Void)
+
    private Environment environment = new Environment();
   //The Interpreter’s public API is simply one method.
    void interpret(List<Stmt> statements) {
@@ -67,6 +64,15 @@ class Interpreter implements Expr.Visitor<Object>,
   @Override
   public Void visitExpressionStmt(Stmt.Expression stmt) {
     evaluate(stmt.expression);
+    return null;
+  }
+  @Override
+  public Void visitIfStmt(Stmt.If stmt) {
+    if (isTruthy(evaluate(stmt.condition))) {
+      execute(stmt.thenBranch);
+    } else if (stmt.elseBranch != null) {
+      execute(stmt.elseBranch);
+    }
     return null;
   }
   @Override
@@ -208,22 +214,3 @@ class Interpreter implements Expr.Visitor<Object>,
   
 
 }
-
-
-
-
-
-
-
-
-
-
-
-/*
-Lox type	Java representation
-Any Lox value	Object
-nil	null
-Boolean	Boolean
-number	Double
-string	String
- */

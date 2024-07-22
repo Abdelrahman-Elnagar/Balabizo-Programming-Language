@@ -11,19 +11,22 @@ import src.com.craftinginterpreters.Lox.*;
 
 
 public class Balabizo {
-  public static final Interpreter interpreter = new Interpreter(); //why static is below
+
+  public static final Interpreter interpreter = new Interpreter();
   static boolean hadError = false; //to ensure we don’t try to execute code that has a known error
   static boolean hadRuntimeError = false;
 
   public static void main(String[] args) throws IOException {
-    if (args.length > 1) {
+    /*if (args.length > 1) {
       System.out.println("Usage: jlox [script]");
       System.exit(64); 
     } else if (args.length == 1) {
       runFile(args[0]);
     } else {
       runPrompt();
-    }
+    }*/
+    run("var x = 2;");
+
   }
 
   //give it a path to a file, it reads the file and executes it.
@@ -97,63 +100,3 @@ public class Balabizo {
   }
 
 }
-
-/*
-overall comments:
-1) it’s good engineering practice to separate the code that generates the errors from the code that reports them.
-2) we would have an actual abstraction, some kind of “ErrorReporter” interface that gets passed to the scanner and parser 
-   so that we can swap out different reporting strategies.
-3) Scanner to tokens : scan through the list of characters and group them together into the smallest sequences that still represent something.  
-4) return '\0' is for returning null   
-5) important principle called maximal munch:
-   When two lexical grammar rules can both match a chunk of code that the scanner is looking at, whichever one matches the most characters wins.
-6) 
-*/
-// EBNF Grammar:
-// expression    → literal
-//               | unary
-//               | binary
-//               | grouping ;
-//
-// literal       → NUMBER | STRING | "true" | "false" | "nil" ;
-// grouping      → "(" expression ")" ;
-// unary         → ( "-" | "!" ) expression ;
-// binary        → expression operator expression ;
-// operator      → "==" | "!=" | "<" | "<=" | ">" | ">="
-//               | "+"  | "-"  | "*" | "/" ;
-/*
-    define a separate rule for each precedence level.
-    Each rule here only matches expressions at its precedence level or higher. like each is accepting the ones after it
-    expression     → equality ; // The top expression rule matches any expression at any precedence level. Since equality has the lowest precedence, if we match that, then it covers everything.
-    equality       → comparison ( ( "!=" | "==" ) comparison )* ;
-    comparison     → term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
-    term           → factor ( ( "-" | "+" ) factor )* ;
-    factor         → unary ( ( "/" | "*" ) unary )* ;
-    unary          → ( "!" | "-" ) unary
-                  | primary ;
-    primary        → "true" | "false" | "nil"
-                      | NUMBER | STRING
-                      | "(" expression ")"
-                       | IDENTIFIER ;
-    primary        → NUMBER | STRING | "true" | "false" | "nil"
-                  | "(" expression ")" ; // all the literals and grouping expressions.
- *//*We make the field static so that successive calls to run() inside a REPL session reuse the same interpreter. 
-That doesn’t make a difference now, but it will later when the interpreter stores global variables. 
-Those variables should persist throughout the REPL session. */
-/*
-    program        → declaration* EOF ;
-
-    declaration    → varDecl
-                  | statement ;
-    varDecl        → "var" IDENTIFIER ( "=" expression )? ";" ;              
-    statement      → exprStmt
-                  | printStmt
-                  | block ;
-
-    block          → "{" declaration* "}" ;
-    exprStmt       → expression ";" ;
-    printStmt      → "print" expression ";" ;
-    expression     → assignment ;
-    assignment     → IDENTIFIER "=" assignment
-                      | equality ;
- */
