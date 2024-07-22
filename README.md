@@ -28,8 +28,12 @@ declaration    → varDecl
                | statement ;
 varDecl        → "var" IDENTIFIER ( "=" expression )? ";" ;
 statement      → exprStmt
+               | ifStmt
                | printStmt
                | block ;
+
+ifStmt         → "if" "(" expression ")" statement
+               ( "else" statement )? ;
 
 block          → "{" declaration* "}" ;
 exprStmt       → expression ";" ;
