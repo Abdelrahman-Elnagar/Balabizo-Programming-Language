@@ -49,6 +49,18 @@ class Interpreter implements Expr.Visitor<Object>,
     return object.toString();
   }
   @Override
+  public Object visitLogicalExpr(Expr.Logical expr) { // differ than the VisitBinary in which its short-circuit eval left first and judge
+    Object left = evaluate(expr.left);
+
+    if (expr.operator.type == TokenType.OR) {
+      if (isTruthy(left)) return left;
+    } else {
+      if (!isTruthy(left)) return left;
+    }
+
+    return evaluate(expr.right);
+  }
+  @Override
   public Object visitLiteralExpr(Expr.Literal expr) {
     return expr.value;
   }
