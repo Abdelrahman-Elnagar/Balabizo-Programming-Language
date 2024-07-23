@@ -1,4 +1,4 @@
-# the Grammer :
+# the Grammer / BNF :
 ```
 expression    → literal
                | unary
