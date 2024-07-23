@@ -6,7 +6,8 @@ expression    → literal
 
 literal       → NUMBER | STRING | "true" | "false" | "nil" ;
 grouping      → "(" expression ")" ;
-unary         → ( "-" | "!" ) expression ;
+unary          → ( "!" | "-" ) unary | call ;
+call           → primary ( "(" arguments? ")" )* ;
 binary        → expression operator expression ;
 operator      → "==" | "!=" | "<" | "<="
                | ">" | ">="
