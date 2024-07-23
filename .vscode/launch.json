@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Launch Java Program",
+      "request": "launch",
+      "mainClass": "src.com.craftinginterpreters.Lox.Balabizo",
+      "classpath": [
+        "bin"
+      ]
+    }
+  ]
+}

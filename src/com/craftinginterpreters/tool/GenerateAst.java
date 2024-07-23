@@ -12,12 +12,13 @@ public class GenerateAst {
       System.err.println("Usage: generate_ast <output directory>");
       System.exit(64);
     }
-    String outputDir = args[0]; // to Run :"java -cp bin C:\Users\abdel\OneDrive\Documents\Balabizo\src\com\craftinginterpreters\tool\GenerateAst.java C:\\Users\\abdel\\OneDrive\\Documents\\Balabizo\\src\\com\\craftinginterpreters\\Lox"  
+    String outputDir = args[0]; // to Run :"java -cp bin C:\Users\abdel\OneDrive\Documents\Balabizo\Balabizo\src\com\craftinginterpreters\tool\GenerateAst.java C:\Users\abdel\OneDrive\Documents\Balabizo\Balabizo\src\com\craftinginterpreters\Lox"  
 
     // Each is the name of the class followed by : and the list of fields
     defineAst(outputDir, "Expr", Arrays.asList(
       "Assign   : Token name, Expr value",
       "Binary   : Expr left, Token operator, Expr right",
+      "Call     : Expr callee, Token paren, List<Expr> arguments",
       "Grouping : Expr expression",
       "Literal  : Object value",
       "Logical  : Expr left, Token operator, Expr right",

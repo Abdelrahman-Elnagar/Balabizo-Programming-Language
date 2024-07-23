@@ -25,8 +25,8 @@ public class Balabizo {
     } else {
       runPrompt();
     }*/
-    run("var x = 2;");
-
+    //run("print 2;");
+    runFile("C:\\Users\\abdel\\OneDrive\\Documents\\Balabizo\\Balabizo\\src\\text.Lox");
   }
 
   //give it a path to a file, it reads the file and executes it.

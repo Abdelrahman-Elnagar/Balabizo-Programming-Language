@@ -17,3 +17,5 @@ var c = "global c";
 print a;
 print b;
 print c;
+var s = "My Language is working pretty good";
+print s;
