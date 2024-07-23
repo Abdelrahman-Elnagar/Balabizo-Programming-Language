@@ -1,4 +1,5 @@
 # the Grammer :
+```
 expression    → literal
                | unary
                | binary
@@ -8,6 +9,8 @@ literal       → NUMBER | STRING | "true" | "false" | "nil" ;
 grouping      → "(" expression ")" ;
 unary          → ( "!" | "-" ) unary | call ;
 call           → primary ( "(" arguments? ")" )* ;
+arguments      → expression ( "," expression )* ;
+
 binary        → expression operator expression ;
 operator      → "==" | "!=" | "<" | "<="
                | ">" | ">="
@@ -52,3 +55,4 @@ assignment     → IDENTIFIER "=" assignment
                | logic_or ;
 logic_or       → logic_and ( "or" logic_and )* ;
 logic_and      → equality ( "and" equality )* ;
+```
