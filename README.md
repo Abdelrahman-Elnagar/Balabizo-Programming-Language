@@ -28,7 +28,8 @@ primary        → "true" | "false" | "nil"
                | IDENTIFIER ;
 
 program        → declaration* EOF ;
-declaration    → varDecl
+declaration    → funDecl
+               | varDecl
                | statement ;
 varDecl        → "var" IDENTIFIER ( "=" expression )? ";" ;
 statement      → exprStmt
