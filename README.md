@@ -32,6 +32,7 @@ declaration    → funDecl
                | varDecl
                | statement ;
 funDecl        → "fun" function ;
+parameters     → IDENTIFIER ( "," IDENTIFIER )* ;
 function       → IDENTIFIER "(" parameters? ")" block ;
 varDecl        → "var" IDENTIFIER ( "=" expression )? ";" ;
 statement      → exprStmt
