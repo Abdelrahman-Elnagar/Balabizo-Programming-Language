@@ -36,6 +36,8 @@ public class Balabizo {
     // Indicate an error in the exit code.
     if (hadError) System.exit(65);
     if (hadRuntimeError) System.exit(70);
+    else
+       System.out.println("Life is Good");
   }
 
   //prompt where you can enter and execute code one line at a time.

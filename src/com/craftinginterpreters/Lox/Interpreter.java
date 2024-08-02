@@ -1,12 +1,32 @@
 package src.com.craftinginterpreters.Lox;
 import java.util.List;
+
+import src.com.craftinginterpreters.Lox.Stmt.Return;
+
 import java.util.ArrayList;
 
 class Interpreter implements Expr.Visitor<Object>,
                              Stmt.Visitor<Void> { // for statements that retun no value (Void)
 
-   private Environment environment = new Environment();
+  final Environment globals = new Environment();
+  private Environment environment = globals;
   //The Interpreter’s public API is simply one method.
+  Interpreter() {
+    globals.define("clock", new LoxCallable() {
+      @Override
+      public int arity() { return 0; }
+
+      @Override
+      public Object call(Interpreter interpreter, //calls the corresponding Java function / Native Function
+                         List<Object> arguments) {
+        return (double)System.currentTimeMillis() / 1000.0;
+      }
+
+      @Override
+      public String toString() { return "<native fn>"; }
+    });
+  }
+
    void interpret(List<Stmt> statements) {
     try {
       for (Stmt statement : statements) {
@@ -88,6 +108,12 @@ class Interpreter implements Expr.Visitor<Object>,
     return null;
   }
   @Override
+  public Void visitFunctionStmt(Stmt.Function stmt) {
+    BalabizoFunction function = new BalabizoFunction(stmt, environment);
+    environment.define(stmt.name.lexeme, function);
+    return null;
+  }
+  @Override
   public Void visitIfStmt(Stmt.If stmt) {
     if (isTruthy(evaluate(stmt.condition))) {
       execute(stmt.thenBranch);
@@ -101,6 +127,11 @@ class Interpreter implements Expr.Visitor<Object>,
     Object value = evaluate(stmt.expression);
     System.out.println(stringify(value));
     return null;
+  }
+  public Void visitReturnStmt(Stmt.Return stmt) {
+    Object value = null;
+    if (stmt.value != null) value = evaluate(stmt.value);
+    throw new ErrorReturn(value);
   }
 
   @Override

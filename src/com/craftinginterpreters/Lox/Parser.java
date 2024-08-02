@@ -79,6 +79,8 @@ class Parser {
   }
   private Stmt declaration() { //when parsing a series of statements in a block or a script , right place to synchronize when the parser goes into panic mode.
     try {
+      if (match(FUN)) return function("function");
+
       if (match(VAR)) return varDeclaration();
 
       return statement();
@@ -91,6 +93,7 @@ class Parser {
     if (match(FOR)) return forStatement();
     if (match(IF)) return ifStatement();
     if (match(PRINT)) return printStatement();
+    if (match(RETURN)) return returnStatement();
     if (match(WHILE)) return whileStatement();
     if (match(LEFT_BRACE)) return new Stmt.Block(block());
     return expressionStatement();
@@ -167,6 +170,16 @@ class Parser {
     consume(SEMICOLON, "Balabizo, Expect ';' after value.");
     return new Stmt.Print(value);
   }
+  private Stmt returnStatement() {
+    Token keyword = previous();
+    Expr value = null;
+    if (!check(SEMICOLON)) {
+      value = expression();
+    }
+
+    consume(SEMICOLON, "Balabizo, Expect ';' after return value.");
+    return new Stmt.Return(keyword, value);
+  }
   private Stmt varDeclaration() {
     Token name = consume(IDENTIFIER, "Balabizo, Expect variable name.");
 
@@ -186,6 +199,26 @@ class Parser {
     Expr expr = expression();
     consume(SEMICOLON, "Expect ';' after expression.");
     return new Stmt.Expression(expr);
+  }
+
+  private Stmt.Function function(String kind) {
+    Token name = consume(IDENTIFIER, "Balabizo, Expect " + kind + " name."); //kind of declaration being parsed.
+    consume(LEFT_PAREN, "Balabizo, Expect '(' after " + kind + " name.");
+    List<Token> parameters = new ArrayList<>();
+    if (!check(RIGHT_PAREN)) { //handles the zero parameter case
+      do {
+        if (parameters.size() >= 255) {
+          error(peek(), "Balabizo Number, Can't have more than 255 parameters. But Wow if you reached here");
+        }
+
+        parameters.add(
+            consume(IDENTIFIER, " Balabizo, Expect parameter name."));
+      } while (match(COMMA));
+    }
+    consume(RIGHT_PAREN, "Balabizo, Expect ')' after parameters.");
+    consume(LEFT_BRACE, "Balabizo, Expect '{' before " + kind + " body.");
+    List<Stmt> body = block(); //block() assumes the brace token has already been matched.
+    return new Stmt.Function(name, parameters, body);
   }
 
   //creates a left-associative nested tree of binary operator nodes.
