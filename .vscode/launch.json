@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Balabizo",
+      "request": "launch",
+      "mainClass": "src.com.craftinginterpreters.Balabizo.Balabizo",
+      "projectName": "Balabizo_fe29a2b1"
+    },
+    {
+      "type": "java",
       "name": "Launch Java Program",
       "request": "launch",
       "mainClass": "src.com.craftinginterpreters.Lox.Balabizo",

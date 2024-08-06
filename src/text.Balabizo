@@ -26,3 +26,15 @@ fun makeCounter() {
 var counter = makeCounter();
 counter(); 
 counter(); 
+
+var a = "global";
+{
+  fun showA() {
+    print a;
+  }
+
+  showA();
+  var a = "block";
+  showA();
+}
+print "Hi ";

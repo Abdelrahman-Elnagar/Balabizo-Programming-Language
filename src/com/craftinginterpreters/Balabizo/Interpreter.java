@@ -1,7 +1,7 @@
-package src.com.craftinginterpreters.Lox;
+package src.com.craftinginterpreters.Balabizo;
 import java.util.List;
 
-import src.com.craftinginterpreters.Lox.Stmt.Return;
+import src.com.craftinginterpreters.Balabizo.Stmt.Return;
 
 import java.util.ArrayList;
 

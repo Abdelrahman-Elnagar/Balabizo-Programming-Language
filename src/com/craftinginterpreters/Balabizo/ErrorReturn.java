@@ -1,4 +1,4 @@
-package src.com.craftinginterpreters.Lox;
+package src.com.craftinginterpreters.Balabizo;
 
 class ErrorReturn extends RuntimeException {
   final Object value;

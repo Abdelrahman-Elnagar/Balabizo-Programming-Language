@@ -1,5 +1,5 @@
 //The Java representation of any Lox object that can be called like a function will implement this interface. 
-package src.com.craftinginterpreters.Lox;
+package src.com.craftinginterpreters.Balabizo;
 
 import java.util.List;
 

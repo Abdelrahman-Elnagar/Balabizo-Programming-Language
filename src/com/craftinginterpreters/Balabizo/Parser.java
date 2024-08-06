@@ -1,11 +1,12 @@
 // Each grammar rule becomes a method inside this new class
 
-package src.com.craftinginterpreters.Lox;
+package src.com.craftinginterpreters.Balabizo;
 import java.util.Arrays;
+
+import static src.com.craftinginterpreters.Balabizo.TokenType.*;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import static src.com.craftinginterpreters.Lox.TokenType.*;
 
 class Parser {
   // prof Slim said to delay the error to the end to the last place to handle it so whst are we doiing handling here ?
@@ -80,7 +81,6 @@ class Parser {
   private Stmt declaration() { //when parsing a series of statements in a block or a script , right place to synchronize when the parser goes into panic mode.
     try {
       if (match(FUN)) return function("function");
-
       if (match(VAR)) return varDeclaration();
 
       return statement();

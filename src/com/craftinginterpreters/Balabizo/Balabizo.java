@@ -1,4 +1,4 @@
-package src.com.craftinginterpreters.Lox;
+package src.com.craftinginterpreters.Balabizo;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -6,7 +6,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import src.com.craftinginterpreters.Lox.*;
+
+import src.com.craftinginterpreters.Balabizo.*;
 
 
 
@@ -26,7 +27,7 @@ public class Balabizo {
       runPrompt();
     }*/
     //run("print 2;");
-    runFile("C:\\Users\\abdel\\OneDrive\\Documents\\Balabizo\\Balabizo\\src\\text.Lox");
+    runFile("C:\\Users\\abdel\\OneDrive\\Documents\\Balabizo\\Balabizo\\src\\text.Balabizo");
   }
 
   //give it a path to a file, it reads the file and executes it.

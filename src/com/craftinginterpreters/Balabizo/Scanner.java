@@ -1,6 +1,6 @@
-package src.com.craftinginterpreters.Lox;
+package src.com.craftinginterpreters.Balabizo;
 
-import static src.com.craftinginterpreters.Lox.TokenType.*;
+import static src.com.craftinginterpreters.Balabizo.TokenType.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
