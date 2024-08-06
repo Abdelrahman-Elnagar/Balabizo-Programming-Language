@@ -12,7 +12,7 @@
       "type": "java",
       "name": "Launch Java Program",
       "request": "launch",
-      "mainClass": "src.com.craftinginterpreters.Lox.Balabizo",
+      "mainClass": "src.com.craftinginterpreters.Balabizo.Balabizo",
       "classpath": [
         "bin"
       ]

@@ -6,11 +6,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-
-import src.com.craftinginterpreters.Balabizo.*;
-
-
-
 public class Balabizo {
 
   public static final Interpreter interpreter = new Interpreter();
@@ -18,16 +13,15 @@ public class Balabizo {
   static boolean hadRuntimeError = false;
 
   public static void main(String[] args) throws IOException {
-    /*if (args.length > 1) {
-      System.out.println("Usage: jlox [script]");
+    if (args.length > 1) {
+      System.out.println("Usage: jBalabizo [script]");
       System.exit(64); 
     } else if (args.length == 1) {
       runFile(args[0]);
     } else {
+      runFile("C:\\Users\\abdel\\OneDrive\\Documents\\Balabizo\\Balabizo\\src\\text.Balabizo");
       runPrompt();
-    }*/
-    //run("print 2;");
-    runFile("C:\\Users\\abdel\\OneDrive\\Documents\\Balabizo\\Balabizo\\src\\text.Balabizo");
+    }
   }
 
   //give it a path to a file, it reads the file and executes it.

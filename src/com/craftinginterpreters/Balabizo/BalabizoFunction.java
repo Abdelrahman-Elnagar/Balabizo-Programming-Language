@@ -2,7 +2,7 @@ package src.com.craftinginterpreters.Balabizo;
 
 import java.util.List;
 
-class BalabizoFunction implements LoxCallable {
+class BalabizoFunction implements BalabizoCallable {
   private final Environment closure;
   private final Stmt.Function declaration;
   BalabizoFunction(Stmt.Function declaration, Environment closure) {

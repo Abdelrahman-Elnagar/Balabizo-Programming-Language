@@ -8,7 +8,7 @@
       "args": [
         "-d",
         "bin",
-        "src/com/craftinginterpreters/Lox/*.java"
+        "src/com/craftinginterpreters/Balabizo/*.java"
       ],
       "group": {
         "kind": "build",

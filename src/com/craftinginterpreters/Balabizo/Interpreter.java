@@ -12,7 +12,7 @@ class Interpreter implements Expr.Visitor<Object>,
   private Environment environment = globals;
   //The Interpreter’s public API is simply one method.
   Interpreter() {
-    globals.define("clock", new LoxCallable() {
+    globals.define("clock", new BalabizoCallable() {
       @Override
       public int arity() { return 0; }
 
@@ -206,11 +206,11 @@ class Interpreter implements Expr.Visitor<Object>,
     for (Expr argument : expr.arguments) { 
       arguments.add(evaluate(argument));
     }
-    if (!(callee instanceof LoxCallable)) {
+    if (!(callee instanceof BalabizoCallable)) {
       throw new RuntimeError(expr.paren,
           "Balabizo, Can only call functions and classes.");
     }
-    LoxCallable function = (LoxCallable)callee;
+    BalabizoCallable function = (BalabizoCallable)callee;
     if (arguments.size() != function.arity()) {
       throw new RuntimeError(expr.paren, "Expected " +
           function.arity() + " arguments but got " +

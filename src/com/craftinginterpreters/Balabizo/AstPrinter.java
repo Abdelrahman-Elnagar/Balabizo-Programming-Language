@@ -1,7 +1,7 @@
 package src.com.craftinginterpreters.Balabizo;
 // Testing class to see ann intermideate procress
 /*
-package src.com.craftinginterpreters.Lox;
+package src.com.craftinginterpreters.Balabizo;
 
 class AstPrinter implements Expr.Visitor<String> {
   String print(Expr expr) {

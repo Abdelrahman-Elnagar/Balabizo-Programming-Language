@@ -37,4 +37,4 @@ var a = "global";
   var a = "block";
   showA();
 }
-print "Hi ";
+print "Hi MF its Balabizo";
