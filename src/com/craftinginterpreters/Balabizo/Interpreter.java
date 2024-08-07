@@ -3,6 +3,8 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
+import src.com.craftinginterpreters.Balabizo.Stmt.Break;
+
 //import src.com.craftinginterpreters.Balabizo.Stmt.Return;
 
 import java.util.ArrayList;
@@ -88,10 +90,14 @@ Stmt.Visitor<Void> { // for statements that retun no value (Void)
   }
   @Override
   public Void visitWhileStmt(Stmt.While stmt) {
-    while (isTruthy(evaluate(stmt.condition))) {
-      execute(stmt.body);
-    }
-    return null;
+      try {
+          while (isTruthy(evaluate(stmt.condition))) {
+              execute(stmt.body);
+          }
+      } catch (BreakError ex) {
+          // Do nothing, exit the loop.
+      }
+      return null;
   }
   @Override
   public Object visitLiteralExpr(Expr.Literal expr) {
@@ -304,6 +310,8 @@ Stmt.Visitor<Void> { // for statements that retun no value (Void)
     // the same equallity as java 
     return a.equals(b);
   }
-  
-
+  @Override
+  public Void visitBreakStmt(Stmt.Break stmt) {
+      throw new BreakError();
+  }
 }

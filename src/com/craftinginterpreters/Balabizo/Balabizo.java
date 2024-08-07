@@ -83,6 +83,10 @@ public class Balabizo {
     System.err.println("Balabizo Code" + "[line " + line + "] Error" + where + ": " + message);
     hadError = true;
   }
+  public static void reporteasily(String message) {
+    System.err.println("Balabizo Code" + message);
+    hadError = true;
+  }
   
     // reports an error at a given token. It shows the token’s location and the token itself. 
   static void error(Token token, String message) { // diffrent parameters for parsing part 

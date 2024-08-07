@@ -11,7 +11,12 @@ fun fibonacci(n) {
   return b;
 }
 for (var i = 0; i < 10; i = i + 1) {
-  print "fibonacci(" + i + ") = " + fibonacci(i);
+  if (i>5){
+        break;
+  }
+  else{
+      print "fibonacci(" + i + ") = " + fibonacci(i);
+  }  
 }
 fun makeCounter() {
   var i = 0;
@@ -37,4 +42,3 @@ var a = "global";
   var a = "block";
   showA();
 }
-return "at top level";

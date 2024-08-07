@@ -96,7 +96,12 @@ class Parser {
     if (match(RETURN)) return returnStatement();
     if (match(WHILE)) return whileStatement();
     if (match(LEFT_BRACE)) return new Stmt.Block(block());
+    if (match(BREAK)) return breakStatement();
     return expressionStatement();
+  }
+  private Stmt breakStatement() {
+    consume(SEMICOLON, "Balabizo Expect ';' after 'break'.");
+    return new Stmt.Break();
   }
   private Stmt forStatement() {
     consume(LEFT_PAREN, "Balabizo, Expect '(' after 'for'.");

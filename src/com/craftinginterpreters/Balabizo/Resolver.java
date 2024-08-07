@@ -9,6 +9,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
   private final Interpreter interpreter;
   private final Stack<Map<String, Boolean>> scopes = new Stack<>();
   private FunctionType currentFunction = FunctionType.NONE;
+  private LoopType currentLoop = LoopType.NONE;
 
   Resolver(Interpreter interpreter) {
     this.interpreter = interpreter;
@@ -16,6 +17,10 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
   private enum FunctionType {
     NONE,
     FUNCTION
+  }
+  private enum LoopType {
+    NONE,
+    LOOP
   }
   @Override
   //Block statements; introduces a new scope for the statements it contains.
@@ -142,9 +147,21 @@ private void declare(Token name) {
     return null;
   }
   @Override
+  public Void visitBreakStmt(Stmt.Break stmt) {
+      if (currentLoop == LoopType.NONE) {
+          Balabizo.reporteasily("Balabizo, Can't have a \"break\" outside of a loop.");
+      }
+      return null;
+  }
+  @Override
   public Void visitWhileStmt(Stmt.While stmt) {
+    LoopType enclosingLoop = currentLoop;
+    currentLoop = LoopType.LOOP;
+
     resolve(stmt.condition);
     resolve(stmt.body);
+
+    currentLoop = enclosingLoop;
     return null;
   }
   @Override
