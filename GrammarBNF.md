@@ -8,7 +8,7 @@ expression    → literal
 literal       → NUMBER | STRING | "true" | "false" | "nil" ;
 grouping      → "(" expression ")" ;
 unary          → ( "!" | "-" ) unary | call ;
-call           → primary ( "(" arguments? ")" )* ;
+call           → primary ( "(" arguments? ")" | "." IDENTIFIER )* ;
 arguments      → expression ( "," expression )* ;
 
 binary        → expression operator expression ;
