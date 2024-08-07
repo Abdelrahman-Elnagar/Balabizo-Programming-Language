@@ -1,15 +1,19 @@
 package src.com.craftinginterpreters.Balabizo;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import src.com.craftinginterpreters.Balabizo.Stmt.Return;
+//import src.com.craftinginterpreters.Balabizo.Stmt.Return;
 
 import java.util.ArrayList;
 
 class Interpreter implements Expr.Visitor<Object>,
-                             Stmt.Visitor<Void> { // for statements that retun no value (Void)
-
+Stmt.Visitor<Void> { // for statements that retun no value (Void)
+  
   final Environment globals = new Environment();
   private Environment environment = globals;
+  private final Map<Expr, Integer> locals = new HashMap<>();
+  
   //The Interpreter’s public API is simply one method.
   Interpreter() {
     globals.define("clock", new BalabizoCallable() {
@@ -246,15 +250,32 @@ class Interpreter implements Expr.Visitor<Object>,
   }
   @Override
   public Object visitVariableExpr(Expr.Variable expr) {
-    return environment.get(expr.name);
+    return lookUpVariable(expr.name, expr);
+  }
+  private Object lookUpVariable(Token name, Expr expr) {
+    Integer distance = locals.get(expr);
+    if (distance != null) {
+      return environment.getAt(distance, name.lexeme);
+    } else {
+      return globals.get(name);
+    }
+  }
+  void resolve(Expr expr, int depth) {
+    locals.put(expr, depth);
   }
   @Override
   public Object visitAssignExpr(Expr.Assign expr) {
     Object value = evaluate(expr.value);
-    environment.assign(expr.name, value);
+    
+    Integer distance = locals.get(expr);
+    if (distance != null) {
+      environment.assignAt(distance, expr.name, value);
+    } else {
+      globals.assign(expr.name, value);
+    }
+
     return value;
   }
-  
   private void checkNumberOperand(Token operator, Object operand) {
     if (operand instanceof Double) return;
     throw new RuntimeError(operator, "Balabizo Code ? Change Operand to be a number");

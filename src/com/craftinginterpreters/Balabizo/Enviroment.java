@@ -44,4 +44,19 @@ class Environment {
     throw new RuntimeError(name,
         "Balabizo, Undefined variable '" + name.lexeme + "'.");
   }
+  Object getAt(int distance, String name) {
+    return ancestor(distance).values.get(name);
+  }
+  void assignAt(int distance, Token name, Object value) {
+    ancestor(distance).values.put(name.lexeme, value);
+  }
+  Environment ancestor(int distance) {
+    Environment environment = this;
+    for (int i = 0; i < distance; i++) {
+      environment = environment.enclosing; 
+    }
+    //doesn’t even have to check to see if the variable is
+    // there—we know it will be because the resolver already found it
+    return environment;
+  }
 }

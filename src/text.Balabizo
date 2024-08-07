@@ -37,4 +37,4 @@ var a = "global";
   var a = "block";
   showA();
 }
-print "Hi MF its Balabizo";
+return "at top level";
