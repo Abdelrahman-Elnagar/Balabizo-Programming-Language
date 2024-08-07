@@ -28,9 +28,12 @@ primary        → "true" | "false" | "nil"
                | IDENTIFIER ;
 
 program        → declaration* EOF ;
-declaration    → funDecl
+declaration    → classDecl
+               | funDecl
                | varDecl
                | statement ;
+
+classDecl      → "class" IDENTIFIER "{" function* "}" ;
 funDecl        → "fun" function ;
 parameters     → IDENTIFIER ( "," IDENTIFIER )* ;
 function       → IDENTIFIER "(" parameters? ")" block ;
@@ -41,7 +44,10 @@ statement      → exprStmt
                | printStmt
                | returnStmt
                | whileStmt
-               | block ;
+               | block
+               | Breakstmt;
+
+Breakstmt      → "break;"
 
 returnStmt     → "return" expression? ";" ;
 
