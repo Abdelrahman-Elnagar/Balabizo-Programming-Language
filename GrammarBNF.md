@@ -8,7 +8,7 @@ expression    → literal
 literal       → NUMBER | STRING | "true" | "false" | "nil" ;
 grouping      → "(" expression ")" ;
 unary          → ( "!" | "-" ) unary | call ;
-call           → primary ( "(" arguments? ")" )* ;
+call           → primary ( "(" arguments? ")" | "." IDENTIFIER )* ;
 arguments      → expression ( "," expression )* ;
 
 binary        → expression operator expression ;
@@ -28,9 +28,12 @@ primary        → "true" | "false" | "nil"
                | IDENTIFIER ;
 
 program        → declaration* EOF ;
-declaration    → funDecl
+declaration    → classDecl
+               | funDecl
                | varDecl
                | statement ;
+
+classDecl      → "class" IDENTIFIER "{" function* "}" ;
 funDecl        → "fun" function ;
 parameters     → IDENTIFIER ( "," IDENTIFIER )* ;
 function       → IDENTIFIER "(" parameters? ")" block ;
@@ -41,7 +44,10 @@ statement      → exprStmt
                | printStmt
                | returnStmt
                | whileStmt
-               | block ;
+               | block
+               | Breakstmt;
+
+Breakstmt      → "break;"
 
 returnStmt     → "return" expression? ";" ;
 
@@ -58,7 +64,7 @@ block          → "{" declaration* "}" ;
 exprStmt       → expression ";" ;
 printStmt      → "print" expression ";" ;
 expression     → assignment ;
-assignment     → IDENTIFIER "=" assignment
+assignment     → ( call "." )? IDENTIFIER "=" assignment
                | logic_or ;
 logic_or       → logic_and ( "or" logic_and )* ;
 logic_and      → equality ( "and" equality )* ;
