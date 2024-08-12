@@ -5,7 +5,11 @@ import java.util.List;
 class BalabizoFunction implements BalabizoCallable {
   private final Environment closure;
   private final Stmt.Function declaration;
-  BalabizoFunction(Stmt.Function declaration, Environment closure) {
+  private final boolean isInitializer;
+
+  BalabizoFunction(Stmt.Function declaration, Environment closure,
+              boolean isInitializer) {
+    this.isInitializer = isInitializer;
     this.closure = closure;
     this.declaration = declaration;
   }
@@ -22,8 +26,10 @@ class BalabizoFunction implements BalabizoCallable {
     try {
         interpreter.executeBlock(declaration.body, environment); // discards that function-local environment and restores the previous one that was active back at the callsite
       } catch (ErrorReturn returnValue) {
+        if (isInitializer) return closure.getAt(0, "this");
         return returnValue.value;
       } 
+    if (isInitializer) return closure.getAt(0, "this");
     return null; // return values will be added later 
   }
   @Override
@@ -34,4 +40,11 @@ class BalabizoFunction implements BalabizoCallable {
   public String toString() {
     return "<THis is Function \"" + declaration.name.lexeme + "\", Let's Explore it>";
   }
+  BalabizoFunction bind(BalabizoInstance instance) {
+    Environment environment = new Environment(closure);
+    environment.define("this", instance);
+    return new BalabizoFunction(declaration, environment,
+                           isInitializer);
+  
+}
 }

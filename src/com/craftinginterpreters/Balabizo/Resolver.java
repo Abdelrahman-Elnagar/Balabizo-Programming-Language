@@ -16,12 +16,20 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
   }
   private enum FunctionType {
     NONE,
-    FUNCTION
+    FUNCTION,
+    INITIALIZER,
+    METHOD
   }
   private enum LoopType {
     NONE,
     LOOP
   }
+  private enum ClassType {
+    NONE,
+    CLASS
+  }
+
+  private ClassType currentClass = ClassType.NONE;
   @Override
   //Block statements; introduces a new scope for the statements it contains.
   public Void visitBlockStmt(Stmt.Block stmt) {
@@ -141,6 +149,10 @@ private void declare(Token name) {
         Balabizo.error(stmt.keyword, "Balabizo, Can't return from top-level code. must be in a function");
       }
     if (stmt.value != null) {
+      if (currentFunction == FunctionType.INITIALIZER) {
+        Balabizo.error(stmt.keyword,
+            "Balabizo, Can't return a value from an initializer.");
+      }
       resolve(stmt.value);
     }
 
@@ -198,6 +210,57 @@ private void declare(Token name) {
   @Override
   public Void visitUnaryExpr(Expr.Unary expr) {
     resolve(expr.right);
+    return null;
+  }
+  @Override
+  public Void visitClassStmt(Stmt.Class stmt) {
+    declare(stmt.name);
+    define(stmt.name);
+    ClassType enclosingClass = currentClass;
+    currentClass = ClassType.CLASS;
+    beginScope();
+    scopes.peek().put("this", true);
+    //beginScope();
+    //scopes.peek().put("self", true);
+    
+    for (Stmt.Function method : stmt.methods) {
+      FunctionType declaration = FunctionType.METHOD;
+      if (method.name.lexeme.equals("create")) {
+        declaration = FunctionType.INITIALIZER;
+      }
+      resolveFunction(method, declaration); 
+    }
+    //endScope();
+    endScope();
+    currentClass = enclosingClass;
+
+
+    return null;
+  }
+  @Override
+  public Void visitGetExpr(Expr.Get expr) {
+    resolve(expr.object);
+    return null;
+  }
+  @Override
+  public Void visitSetExpr(Expr.Set expr) {
+    resolve(expr.value);
+    resolve(expr.object);
+    return null;
+  }
+  @Override
+  public Void visitselfExpr(Expr.self expr) {
+    resolveLocal(expr, expr.keyword);
+    return null;
+  }
+  @Override
+  public Void visitThisExpr(Expr.This expr) {
+    if (currentClass == ClassType.NONE) {
+      Balabizo.error(expr.keyword,
+          "Balabizo, Can't use 'this' outside of a class.");
+      return null;
+    }
+    resolveLocal(expr, expr.keyword);
     return null;
   }
 }

@@ -37,6 +37,8 @@ class Scanner {
     keywords.put("var",    VAR);
     keywords.put("while",  WHILE);
     keywords.put("break", TokenType.BREAK);
+    keywords.put("self", TokenType.SELF);
+
   }
 
   Scanner(String source) { //tom use to scann the file
