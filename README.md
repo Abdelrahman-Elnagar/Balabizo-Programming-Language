@@ -2,7 +2,7 @@
 
 ## Introduction
 
-**Balabizo** is a modern programming language designed to explore and demonstrate core principles of language development and interpreter design. It features a fully functional interpreter and a clean, expressive syntax, making it an ideal tool for learning and experimenting with programming languages.
+**Balabizo** is a modern programming language have primary OOP features of classes and objects, designed to explore and demonstrate core principles of language development and interpreter design. It features a fully functional interpreter and a clean, expressive syntax, making it an ideal tool for learning and experimenting with programming languages.
 
 **Behavior:** When code is successfully compiled and executed, the interpreter displays the message `"Life is good"`. If there is an error, the message `"You are being called Balabizo"` along with the error specification is shown.
 
