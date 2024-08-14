@@ -317,7 +317,12 @@ class Parser {
 
     while (!isAtEnd()) {
       if (previous().type == SEMICOLON) return;
-
+    
+      // Skip comments
+      if (previous().type == TokenType.COMMENT) {
+        advance();
+        continue;
+    }
       switch (peek().type) {
         case CLASS:
         case FUN:

@@ -36,6 +36,7 @@ class Scanner {
     keywords.put("true",   TRUE);
     keywords.put("var",    VAR);
     keywords.put("while",  WHILE);
+    keywords.put("#",  COMMENT);
     keywords.put("break", TokenType.BREAK);
     keywords.put("self", TokenType.SELF);
 
@@ -65,6 +66,9 @@ class Scanner {
   private void scanToken() {
     char c = advance();
     switch (c) {
+      case '#':
+            handleComment();
+            break;
       case '(': addToken(LEFT_PAREN); break;
       case ')': addToken(RIGHT_PAREN); break;
       case '{': addToken(LEFT_BRACE); break;
@@ -119,6 +123,16 @@ class Scanner {
         // what about excuting it ? HadError take care of this no run before check
     }
   }
+  private void handleComment() {
+    //System.out.println("Handling comment: " + source.substring(start, current));
+
+    // Consume until the end of the line
+    while (peek() != '\n' && !isAtEnd()) {
+        advance();
+    }
+    // Return a new token for end-of-line or EOF
+    //addToken(TokenType.COMMENT, source.substring(start, current));
+}
   private char advance() { //to the next char
     return source.charAt(current++);
   }

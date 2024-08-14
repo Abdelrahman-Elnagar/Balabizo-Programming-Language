@@ -1,0 +1,36 @@
+# Define a class Person
+class Person {
+  # Constructor
+  create(name) {
+    this.name = name;
+  }
+
+  # Method to greet
+  greet() {
+    print("Hello, my name is " + this.name + ".");
+  }
+}
+
+// Main program
+fun main() {
+  // Create an instance of Person
+  var person = Person("Alice");
+  person.greet(); // Output: Hello, my name is Alice.
+
+}
+
+// Execute main function
+main();
+
+class Circle {
+  create(radius) {
+    this.radius = radius;
+  }
+
+  area (){
+    return 3.141592653 * this.radius * this.radius;
+  }
+}
+
+var circle = Circle(4);
+print circle.area();

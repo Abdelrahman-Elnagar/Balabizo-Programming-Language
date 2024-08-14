@@ -19,7 +19,7 @@ public class Balabizo {
     } else if (args.length == 1) {
       runFile(args[0]);
     } else {
-      runFile("C:\\Users\\abdel\\OneDrive\\Documents\\Balabizo\\Balabizo\\src\\text.Balabizo");
+      runFile("C:\\Users\\abdel\\OneDrive\\Documents\\Balabizo\\Balabizo\\src\\text.Bz");
       runPrompt();
     }
   }

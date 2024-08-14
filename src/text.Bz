@@ -1,0 +1,81 @@
+# crazy ?
+fun makeCounter() {
+  var i = 0;
+  fun count() {
+    i = i + 1;
+    print i;
+  }
+  return count;
+}
+var counter = makeCounter();
+counter(); 
+counter(); 
+
+# Define a global variable
+var globalVar = "I am global";
+
+# Function to test variable scopes
+fun testScopes() {
+  # Define a local variable
+  var localVar = "I am local";
+
+  # Print variables within the function scope
+  print("Inside function:");
+  print("globalVar: " + globalVar);  # Should print globalVar
+  print("localVar: " + localVar);    # Should print localVar
+
+  # Nested block to test block scope
+  {
+    # Define a block-scoped variable
+    var blockVar = "I am block-scoped";
+
+    # Print variables within the block
+    print("Inside block:");
+    print("globalVar: " + globalVar);  # Should print globalVar
+    print("localVar: " + localVar);    # Should print localVar
+    print("blockVar: " + blockVar);    # Should print blockVar
+  }
+
+  # Print variables outside the block
+  print("Outside block:");
+  print("globalVar: " + globalVar);  # Should print globalVar
+  print("localVar: " + localVar);    # Should print localVar
+  # print("blockVar: " + blockVar);  # Should cause an error (undefined variable)
+}
+
+# Function to test nested scopes
+fun testNestedScopes() {
+  var outerVar = "I am outer";
+
+  fun innerFunction() {
+    var innerVar = "I am inner";
+
+    # Print variables within innerFunction scope
+    print("Inside innerFunction:");
+    print("outerVar: " + outerVar);  # Should print outerVar
+    print("innerVar: " + innerVar);  # Should print innerVar
+  }
+
+  innerFunction();
+
+  # Print variables within the outer function scope
+  print("Inside outerFunction:");
+  print("outerVar: " + outerVar);  # Should print outerVar
+  # print("innerVar: " + innerVar);  # Should cause an error (undefined variable)
+}
+
+# Main program
+fun main() {
+  # Test scopes
+  print("Testing Scopes:");
+  testScopes();
+
+  # Test nested scopes
+  print("\nTesting Nested Scopes:");
+  testNestedScopes();
+}
+
+# Execute main function
+main();
+
+
